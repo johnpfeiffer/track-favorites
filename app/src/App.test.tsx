@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/vitest";
 
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, test, vi } from "vitest";
 
@@ -103,6 +103,32 @@ describe("FavoritesView", () => {
     await user.selectOptions(status, "cancelled");
     await user.click(screen.getByRole("button", { name: "Cancel favorite" }));
     expect(onStatusChange).toHaveBeenCalledWith(item._id, "cancelled");
+  });
+
+  test("dismisses cancellation with Escape and restores focus without changing status", async () => {
+    const user = userEvent.setup();
+    const onStatusChange = vi.fn().mockResolvedValue(undefined);
+    render(
+      <FavoritesView
+        items={[item]}
+        onAdd={vi.fn()}
+        onStatusChange={onStatusChange}
+      />,
+    );
+
+    const status = screen.getByRole("combobox", {
+      name: `Status for ${item.uniqueId}`,
+    });
+    await user.selectOptions(status, "cancelled");
+    const dialog = screen.getByRole("dialog", { name: "Cancel favorite?" });
+    expect(dialog).toContainElement(document.activeElement as HTMLElement);
+
+    await user.keyboard("{Escape}");
+
+    await waitFor(() => expect(dialog).not.toBeInTheDocument());
+    expect(onStatusChange).not.toHaveBeenCalled();
+    expect(status).toHaveValue("todo");
+    expect(status).toHaveFocus();
   });
 
   test("collapses the listing and sorts by date or ID", async () => {

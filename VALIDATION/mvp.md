@@ -29,3 +29,30 @@ npm run typecheck:convex
 npm run lint
 npm run build
 ```
+
+## Material UI 9.4.0 upgrade
+
+Validated on 2026-09-03 against the
+[upstream 9.4.0 release](https://github.com/mui/material-ui/releases/tag/v9.4.0).
+
+- Preserve the in-progress exact 9.4.0 pin and matching lockfile; verify with
+  `npm ci --no-audit --no-fund` and `npm run validate` from `app/`.
+- The presentation suite exercises actual MUI components, including labeled
+  native selects, TextField submission, cancellation confirmation, sorting,
+  graph relationship chips, and graph layout buttons.
+- The keyboard regression checks that Escape dismisses the cancellation dialog,
+  restores focus to the status select, and does not call the status mutation.
+  Removing the dialog's `onClose` handler makes this test fail; restoring it
+  passes. No application source changes are required for this upgrade.
+- The single-bundle production-asset verifier must continue to pass. The
+  resulting Vite chunk-size warning is expected; code splitting would violate
+  the existing middleware asset boundary.
+
+Result: clean install succeeded; all 35 tests, Convex type checking, lint,
+production compilation, and middleware asset verification passed. A browser
+smoke check reached the rendered Google sign-in screen. Authenticated live
+favorites operations were not exercised; their UI and backend paths were
+covered by automated tests. `npm audit` could not complete because the npm
+security advisory endpoint timed out, including a retry with network approval.
+The install also warned about the existing unapproved `esbuild@0.27.0`
+postinstall script; no install-script permissions were changed.

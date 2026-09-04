@@ -37,6 +37,9 @@ flowchart LR
 
 ## Monorepo route and asset boundary
 
+
+### Asset routing
+
 The standalone app remains unaware of the monorepo and uses Vite `base: '/'`,
 matching the established `rands-personality-game` integration. In production,
 `functions/_middleware.js` recognizes `track-favorites` as a valid app route,

@@ -26,7 +26,7 @@ Requirements: a current Node.js release supported by Vite and a Convex account.
 
 ```sh
 cd app
-npm install
+npm ci
 npx convex dev
 ```
 
@@ -67,6 +67,11 @@ repulsion simulation.
 
 ## Validation
 
+The UI is pinned to Material UI **9.4.0**, with its resolved dependencies in
+`app/package-lock.json`. Use `npm ci` to reproduce the verified install.
+`npm run validate` runs tests, Convex type checking, lint, and the production
+build together; the individual checks are:
+
 ```sh
 cd app
 npm test
@@ -78,7 +83,11 @@ npm audit
 
 `npm test` exercises the public Convex functions with `convex-test`, verifies the
 main user-visible UI states with Testing Library, and checks graph validation and
-rendering.
+rendering. The cancellation dialog also has a keyboard regression test for
+Escape dismissal, focus restoration, and leaving the item's status unchanged.
+
+The production build intentionally uses one JavaScript bundle for the monorepo
+middleware (see below), so Vite's 500 kB chunk warning is expected.
 
 ## Monorepo deployment
 
