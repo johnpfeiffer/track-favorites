@@ -6,16 +6,18 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build && node scripts/verify-build.mjs",
-    "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck:convex": "tsc -p convex/tsconfig.json",
-    "validate": "npm test && npm run typecheck:convex && npm run lint && npm run build",
+    "validate": "npm test && npm run typecheck:convex && npm run build",
     "preview": "vite preview"
   },
+  "engines": {
+    "node": ">=24.20.0"
+  },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.1",
     "@mui/material": "9.4.0",
     "convex": "^1.32.0",
     "react": "19.2.8",
@@ -23,7 +25,6 @@
     "uuid": "^14.0.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.3",
@@ -32,18 +33,13 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "6.1.1",
     "convex-test": "^0.0.55",
-    "eslint": "^9.39.1",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-refresh": "^0.4.24",
-    "globals": "^16.5.0",
     "jsdom": "^30.0.1",
-    "typescript": "~5.9.3",
-    "typescript-eslint": "^8.48.0",
+    "typescript": "7.0.2",
     "vite": "8.2.2",
-    "vitest": "^4.1.10"
+    "vitest": "5.0.0"
   },
   "allowScripts": {
     "fsevents@2.3.3": true,
-    "esbuild@0.28.2": true
+    "esbuild@0.27.0": true
   }
 }

@@ -22,7 +22,7 @@ A small Convex and React app for tracking progress through saved links. Google S
 
 ## Local development
 
-Requirements: a current Node.js release supported by Vite and a Convex account.
+Requirements: Node.js 24.20.0 or later (see `app/package.json` `engines`) and a Convex account.
 
 ```sh
 cd app
@@ -69,17 +69,22 @@ repulsion simulation.
 
 The UI is pinned to Material UI **9.4.0**, with its resolved dependencies in
 `app/package-lock.json`. Use `npm ci` to reproduce the verified install.
-`npm run validate` runs tests, Convex type checking, lint, and the production
+`npm run validate` runs tests, Convex type checking, and the production
 build together; the individual checks are:
 
 ```sh
 cd app
 npm test
 npm run typecheck:convex
-npm run lint
 npm run build
 npm audit
 ```
+
+Note: the previous `npm run lint` (eslint + typescript-eslint) was removed in
+the TypeScript 7 upgrade. typescript-eslint (through at least 8.69.0) requires
+the TypeScript JS compiler API, which the native TypeScript 7 package does not
+provide, so the lint gate cannot run against the baseline toolchain. Restore it
+from git history once typescript-eslint ships TypeScript 7 support.
 
 `npm test` exercises the public Convex functions with `convex-test`, verifies the
 main user-visible UI states with Testing Library, and checks graph validation and
